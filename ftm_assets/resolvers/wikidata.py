@@ -4,6 +4,8 @@ Wikidata resolver. Takes a wikidata id (QID) and finds the most recent image
 https://www.wikidata.org/w/api.php?action=wbgetclaims&property=P18&entity=Q7747
 """
 
+from datetime import datetime
+
 import httpx
 from anystore.types import SDict
 from banal import ensure_list
@@ -27,6 +29,18 @@ def resolve_image_url(name: str) -> str:
     return str(res.url)
 
 
+def extract_date(claim: SDict) -> str:
+    for date in sorted(
+        [
+            p["datavalue"]["value"]["time"]
+            for p in ensure_list(claim.get("qualifiers", {}).get("P585"))
+        ],
+        reverse=True,
+    ):
+        return date
+    return datetime(1970, 1, 1).isoformat()
+
+
 def resolve(id: str) -> Image | None:
     # FIXME use `nomenklatura.wikidata` client?
     if is_qid(id):
@@ -39,13 +53,7 @@ def resolve(id: str) -> Image | None:
             candidates.append(
                 {
                     "name": claim["mainsnak"]["datavalue"]["value"],
-                    "date": sorted(
-                        [
-                            p["datavalue"]["value"]["time"]
-                            for p in claim["qualifiers"]["P585"]
-                        ],
-                        reverse=True,
-                    )[0],
+                    "date": extract_date(claim),
                     "alt": [
                         p["datavalue"]["value"]
                         for p in ensure_list(claim["qualifiers"].get("P2096"))

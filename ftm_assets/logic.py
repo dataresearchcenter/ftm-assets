@@ -25,6 +25,7 @@ def generate_thumbnail(img: "ImageModel", size: int | None = None) -> str:
     if not storage.exists(img.thumbnail):
         with smart_open(str(img.url)) as io:
             image = Image.open(io)
+            image.convert("RGB")
             image.thumbnail((size, size))
             with storage.open(img.thumbnail, "wb") as out:
                 image.save(out)

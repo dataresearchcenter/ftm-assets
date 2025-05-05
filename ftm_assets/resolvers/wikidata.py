@@ -56,7 +56,7 @@ def resolve(id: str) -> Image | None:
                     "date": extract_date(claim),
                     "alt": [
                         p["datavalue"]["value"]
-                        for p in ensure_list(claim["qualifiers"].get("P2096"))
+                        for p in ensure_list(claim.get("qualifiers", {}).get("P2096"))
                     ],
                 }
             )

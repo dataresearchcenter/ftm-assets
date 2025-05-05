@@ -1,0 +1,66 @@
+[project]
+name = "ftm-assets"
+version = "0.0.0"
+description = "Assets (image) resolver for FollowTheMoney data"
+authors = [{ name = "Simon Wörpel", email = "simon.woerpel@pm.me" }]
+license = "AGPLv3+"
+readme = "README.md"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.11,<4"
+dependencies = [
+    "anystore (>=0.3.3,<0.4.0)",
+    "ftmq (>=0.8.2,<0.9.0)",
+    "fastapi (>=0.115.12,<0.116.0)",
+    "pydantic-extra-types (>=2.10.4,<3.0.0)",
+    "pillow (>=11.2.1,<12.0.0)",
+]
+
+[project.scripts]
+ftm-assets = "ftm_assets.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/dataresearchcenter/ftm-assets"
+Documentation = "https://github.com/dataresearchcenter/ftm-assets"
+Repository = "https://github.com/dataresearchcenter/ftm-assets"
+Issues = "https://github.com/dataresearchcenter/ftm-assets/issues"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.4.3,<9.0.0"
+pytest-cov = ">=4.1,<7.0"
+black = ">=23.11,<25.0"
+isort = "^5.12.0"
+mypy = "^1.7.0"
+pre-commit = "^4.0.1"
+flake8 = ">=6.1,<8.0"
+ipdb = "^0.13.13"
+bump2version = "^1.0.1"
+cloudpickle = ">=2.2.1,<4.0.0"
+pytest-env = "^1.1.1"
+bump-pydantic = ">=0.7,<0.9"
+mkdocs = "^1.6.1"
+mkdocstrings-python = "^1.16.10"
+mkdocs-autorefs = "^1.4.1"
+mkdocs-material = "^9.6.12"
+mkdocs-click = "^0.9.0"
+redis = "^6.0.0"
+fakeredis = "^2.28.1"
+uvicorn = "^0.34.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest_env]
+DEBUG = 1
+FTM_ASSETS_CACHE__URI = "redis://localhost"
+FTM_ASSETS_STORE__URI = ".test-store"
+FTM_ASSETS_PUBLIC_CDN_PREFIX = "https://static.example.org"
+REDIS_DEBUG = 1

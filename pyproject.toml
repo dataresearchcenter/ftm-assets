@@ -16,7 +16,7 @@ classifiers = [
 requires-python = ">=3.11,<4"
 dependencies = [
     "anystore (>=0.3.3,<0.4.0)",
-    "ftmq (>=0.8.2,<0.9.0)",
+    "ftmq (>=0.8.3,<0.9.0)",
     "fastapi (>=0.115.12,<0.116.0)",
     "pydantic-extra-types (>=2.10.4,<3.0.0)",
     "pillow (>=11.2.1,<12.0.0)",
@@ -61,7 +61,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest_env]
 DEBUG = 1
-FTM_ASSETS_CACHE__URI = "redis://localhost"
-FTM_ASSETS_STORE__URI = ".test-store"
+FTM_ASSETS_CACHE_URI = "redis://localhost"
+FTM_ASSETS_STORE_URI = ".test-store"
 FTM_ASSETS_PUBLIC_CDN_PREFIX = "https://static.example.org"
 REDIS_DEBUG = 1

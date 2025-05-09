@@ -22,6 +22,7 @@ typecheck:
 
 test:
 	rm -rf .test-store
+	mkdir -p static
 	poetry run pytest -v --capture=sys --cov=ftm_assets --cov-report lcov
 	rm -rf .test-store
 

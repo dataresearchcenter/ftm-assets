@@ -22,12 +22,18 @@ app = FastAPI(
     contact=settings.api.contact.model_dump(),
     description=get_description(),
     version=__version__,
+    root_path=settings.api.path_prefix,
     redoc_url="/",
 )
 app.add_middleware(
     CORSMiddleware,
     allow_methods=["OPTIONS", "GET"],
 )
+
+if settings.debug:
+    from fastapi.staticfiles import StaticFiles
+
+    app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/img/{id}")

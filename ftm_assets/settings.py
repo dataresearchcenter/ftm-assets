@@ -19,6 +19,7 @@ class ApiSettings(BaseModel):
     title: str = "FollowTheMoney Asset resolver"
     contact: ApiContact = ApiContact()
     description_uri: str = "README.md"
+    allowed_origins: list[str] = []
 
 
 class Settings(BaseSettings):

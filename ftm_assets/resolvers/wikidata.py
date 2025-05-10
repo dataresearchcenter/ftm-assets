@@ -7,11 +7,19 @@ https://www.wikidata.org/w/api.php?action=wbgetclaims&property=P18&entity=Q7747
 from datetime import datetime
 
 import httpx
+from anystore.decorators import anycache
 from anystore.types import SDict
 from banal import ensure_list
+from pydantic import HttpUrl
 from rigour.ids.wikidata import is_qid
 
-from ftm_assets.model import Image
+from ftm_assets.logging import get_logger
+from ftm_assets.model import Attribution, Image
+from ftm_assets.settings import Settings
+from ftm_assets.store import get_cache
+
+log = get_logger(__name__)
+settings = Settings()
 
 BASE_URL = (
     "https://www.wikidata.org/w/api.php?action=wbgetclaims"
@@ -23,8 +31,11 @@ IMAGE_URL = (
 )
 
 
-def resolve_image_url(name: str) -> str:
+def resolve_image_url(name: str) -> str | None:
     res = httpx.head(IMAGE_URL.format(name=name), follow_redirects=True)
+    if res.status_code == 404:
+        log.error("Image redirect not found", name=name)
+        return
     res.raise_for_status()
     return str(res.url)
 
@@ -41,6 +52,9 @@ def extract_date(claim: SDict) -> str:
     return datetime(1970, 1, 1).isoformat()
 
 
+@anycache(
+    store=get_cache(), key_func=lambda x: f"resolve/wikidata/{x}", ttl=3600, model=Image
+)
 def resolve(id: str) -> Image | None:
     # FIXME use `nomenklatura.wikidata` client?
     if is_qid(id):
@@ -49,7 +63,7 @@ def resolve(id: str) -> Image | None:
         res.raise_for_status()
         data = res.json()
         candidates: list[SDict] = []
-        for claim in ensure_list(data["claims"].get("P18")):
+        for claim in ensure_list(data.get("claims", {}).get("P18")):
             candidates.append(
                 {
                     "name": claim["mainsnak"]["datavalue"]["value"],
@@ -62,13 +76,16 @@ def resolve(id: str) -> Image | None:
             )
         for candidate in sorted(candidates, key=lambda x: x["date"], reverse=True):
             url = resolve_image_url(candidate["name"])
-            return Image(
-                id=id,
-                name=candidate["name"],
-                url=url,
-                alt=candidate["alt"],
-                attribution={
-                    "license": "CC BY 4.0",
-                    "license_url": "https://creativecommons.org/licenses/by/4.0/",
-                },
-            )
+            if url is not None:
+                return Image(
+                    id=id,
+                    name=candidate["name"],
+                    url=HttpUrl(url),
+                    alt=candidate["alt"],
+                    attribution=Attribution(
+                        license="CC BY 4.0",
+                        license_url=HttpUrl(
+                            "https://creativecommons.org/licenses/by/4.0/"
+                        ),
+                    ),
+                )

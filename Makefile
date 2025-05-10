@@ -1,3 +1,9 @@
+export DEBUG := 1
+export FTM_ASSETS_PUBLIC_CDN_PREFIX := http://localhost:5000/api/static
+export FTM_ASSETS_MIRROR := 1
+export FTM_ASSETS_THUMBNAILS := 1
+
+
 all: clean install test
 
 install:
@@ -16,6 +22,7 @@ typecheck:
 
 test:
 	rm -rf .test-store
+	mkdir -p static
 	poetry run pytest -v --capture=sys --cov=ftm_assets --cov-report lcov
 	rm -rf .test-store
 
@@ -34,4 +41,4 @@ clean:
 	find . -name '__pycache__' -exec rm -fr {} +
 
 api:
-	FTM_ASSETS_PUBLIC_CDN_PREFIX=http://localhost:5000 uvicorn ftm_assets.api:app --reload --port 5000
+	uvicorn ftm_assets.api:app --reload --port 5000

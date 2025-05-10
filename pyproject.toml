@@ -1,6 +1,6 @@
 [project]
 name = "ftm-assets"
-version = "0.0.1"
+version = "0.0.2"
 description = "Assets (image) resolver for FollowTheMoney data"
 authors = [{ name = "Simon Wörpel", email = "simon.woerpel@pm.me" }]
 license = "AGPLv3+"
@@ -16,10 +16,10 @@ classifiers = [
 requires-python = ">=3.11,<4"
 dependencies = [
     "anystore (>=0.3.3,<0.4.0)",
-    "ftmq (>=0.8.2,<0.9.0)",
+    "ftmq (>=0.8.3,<0.9.0)",
     "fastapi (>=0.115.12,<0.116.0)",
-    "pydantic-extra-types (>=2.10.4,<3.0.0)",
     "pillow (>=11.2.1,<12.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
 ]
 
 [project.scripts]
@@ -34,7 +34,7 @@ Issues = "https://github.com/dataresearchcenter/ftm-assets/issues"
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.4.3,<9.0.0"
 pytest-cov = ">=4.1,<7.0"
-black = ">=23.11,<25.0"
+black = ">=23.11,<26.0"
 isort = "^5.12.0"
 mypy = "^1.7.0"
 pre-commit = "^4.0.1"
@@ -50,7 +50,7 @@ mkdocs-autorefs = "^1.4.1"
 mkdocs-material = "^9.6.12"
 mkdocs-click = "^0.9.0"
 redis = "^6.0.0"
-fakeredis = "^2.28.1"
+fakeredis = "^2.29.0"
 uvicorn = "^0.34.2"
 
 
@@ -60,7 +60,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest_env]
 DEBUG = 1
-FTM_ASSETS_CACHE__URI = "redis://localhost"
-FTM_ASSETS_STORE__URI = ".test-store"
+FTM_ASSETS_CACHE_URI = "redis://localhost"
+FTM_ASSETS_STORE_URI = ".test-store"
 FTM_ASSETS_PUBLIC_CDN_PREFIX = "https://static.example.org"
+FTM_ASSETS_MIRROR = 1
+FTM_ASSETS_THUMBNAILS = 1
 REDIS_DEBUG = 1

@@ -39,4 +39,4 @@ def test_logic_thumbnail():
     res = logic.lookup("Q567")
     logic.generate_thumbnail(res)
     storage = get_storage()
-    assert storage.exists(res.thumbnail)
+    assert storage.exists(res.thumbnail_key)

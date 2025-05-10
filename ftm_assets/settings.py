@@ -1,6 +1,7 @@
 from anystore.model import StoreModel
-from pydantic import BaseModel  # , ImportString
+from pydantic import BaseModel, Field  # , ImportString
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from rich import print
 
 
 class ApiContact(BaseModel):
@@ -10,19 +11,25 @@ class ApiContact(BaseModel):
 
 
 class ApiSettings(BaseModel):
+    path_prefix: str = "/api"
+    """Deploy the fastapi under this prefix. This allows to have e.g. a domain
+    "https://assets.example.org/api" for the app and
+    "https://assets.example.org/*" deployed for static serving."""
+
     title: str = "FollowTheMoney Asset resolver"
     contact: ApiContact = ApiContact()
     description_uri: str = "README.md"
+    allowed_origins: list[str] = []
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="ftm_assets_",
-        env_nested_delimiter="__",
+        env_nested_delimiter="_",
         nested_model_default_partial_update=True,
     )
 
-    debug: bool = False
+    debug: bool = Field(default=False, alias="debug")
     """Debug mode"""
 
     cache: StoreModel = StoreModel(uri=".cache")
@@ -47,3 +54,9 @@ class Settings(BaseSettings):
     # """Activated image resolvers"""
 
     api: ApiSettings = ApiSettings()
+
+
+settings = Settings()
+
+if settings.debug:
+    print(settings)

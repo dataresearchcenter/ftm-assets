@@ -22,14 +22,15 @@ log = get_logger(__name__)
 def generate_thumbnail(img: "ImageModel", size: int | None = None) -> str:
     storage = get_storage()
     size = size or settings.thumbnail_size
-    if not storage.exists(img.thumbnail):
+    if not storage.exists(img.thumbnail_key):
         with smart_open(str(img.url)) as io:
             image = Image.open(io)
+            image.convert("RGB")
             image.thumbnail((size, size))
-            with storage.open(img.thumbnail, "wb") as out:
+            with storage.open(img.thumbnail_key, "wb") as out:
                 image.save(out)
-        log.info("Generated thumbnail.", image=img.id, size=size, uri=img.thumbnail)
-    return img.thumbnail
+        log.info("Generated thumbnail.", image=img.id, size=size, uri=img.thumbnail_key)
+    return img.thumbnail_key
 
 
 @anycache(

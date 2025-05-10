@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 
 from ftm_assets import __version__
 from ftm_assets.logic import lookup
-from ftm_assets.model import Image
+from ftm_assets.model import ApiImageResponse
 from ftm_assets.settings import Settings
 
 settings = Settings()
@@ -22,21 +22,28 @@ app = FastAPI(
     contact=settings.api.contact.model_dump(),
     description=get_description(),
     version=__version__,
+    root_path=settings.api.path_prefix,
     redoc_url="/",
 )
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=["*"] if settings.debug else settings.api.allowed_origins,
     allow_methods=["OPTIONS", "GET"],
 )
 
+if settings.debug:
+    from fastapi.staticfiles import StaticFiles
+
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 @app.get("/img/{id}")
-async def api_img_lookup(id: str) -> Image:
+async def api_img_lookup(id: str) -> ApiImageResponse:
     """Get image metadata"""
     res = lookup(id)
     if res is None:
         raise HTTPException(status_code=404)
-    return res
+    return ApiImageResponse.from_image(res)
 
 
 @app.get("/r/img/{id}")
@@ -45,7 +52,7 @@ async def api_img_redirect(id: str) -> RedirectResponse:
     res = lookup(id)
     if res is None:
         raise HTTPException(status_code=404)
-    return RedirectResponse(url=res.public_url)
+    return RedirectResponse(url=res.get_public_url())
 
 
 @app.get("/r/img/{id}/thumb")
@@ -54,4 +61,4 @@ async def api_img_thumbnail_redirect(id: str) -> RedirectResponse:
     res = lookup(id)
     if res is None:
         raise HTTPException(status_code=404)
-    return RedirectResponse(url=res.thumbnail_url)
+    return RedirectResponse(url=res.get_thumbnail_url())

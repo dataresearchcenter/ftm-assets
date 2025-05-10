@@ -1,4 +1,5 @@
 static
+node_modules
 .cache
 .pypirc
 # Byte-compiled / optimized / DLL files

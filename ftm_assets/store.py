@@ -14,4 +14,4 @@ def get_storage() -> BaseStore:
 
 @cache
 def get_cache() -> BaseStore:
-    return get_store(**{**settings.cache.model_dump(), "store_none_values": False})
+    return get_store(**{**settings.cache.model_dump(), "store_none_values": True})

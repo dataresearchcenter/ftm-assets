@@ -229,18 +229,19 @@ trio = ["trio (>=0.26.1)"]
 
 [[package]]
 name = "anystore"
-version = "0.3.3"
+version = "0.3.4"
 description = "Store and cache things anywhere"
 optional = false
 python-versions = "<4,>=3.11"
 groups = ["main"]
 files = [
-    {file = "anystore-0.3.3-py3-none-any.whl", hash = "sha256:c516e2f3eb4e8babca3b5c07a4cc2dce918a6f4d087d84c30f4035c5363c041b"},
-    {file = "anystore-0.3.3.tar.gz", hash = "sha256:589ca01c46d044de438e7c96934d99ed08a87b39f85d5894a6e3cec867ddf367"},
+    {file = "anystore-0.3.4-py3-none-any.whl", hash = "sha256:d2ad16eab0b6a9a5bf2a2d50e519950e4abc2b01c8db8792f359adad6d809818"},
+    {file = "anystore-0.3.4.tar.gz", hash = "sha256:284a8200a030667c4ce08bf4597952a1d828ae6a05575fa9c3f1c66f4229386d"},
 ]
 
 [package.dependencies]
 banal = ">=1.0.6,<2.0.0"
+click = "<8.2"
 cloudpickle = ">=3.1.0,<4.0.0"
 fsspec = ">2023.10,<2026"
 orjson = ">=3.9.15"
@@ -253,7 +254,7 @@ structlog = ">=24.4.0,<25.0.0"
 typer = ">=0.15.1,<0.16.0"
 
 [package.extras]
-redis = ["fakeredis (>=2.26.2,<3.0.0)", "redis (>=5.2.1,<6.0.0)"]
+redis = ["fakeredis (>=2.26.2,<3.0.0)", "redis (>=4.0.0)"]
 sql = ["sqlalchemy (>=2.0.36,<3.0.0)"]
 
 [[package]]
@@ -605,14 +606,14 @@ files = [
 
 [[package]]
 name = "click"
-version = "8.2.0"
+version = "8.1.8"
 description = "Composable command line interface toolkit"
 optional = false
-python-versions = ">=3.10"
+python-versions = ">=3.7"
 groups = ["main", "dev"]
 files = [
-    {file = "click-8.2.0-py3-none-any.whl", hash = "sha256:6b303f0b2aa85f1cb4e5303078fadcbcd4e476f114fab9b5007005711839325c"},
-    {file = "click-8.2.0.tar.gz", hash = "sha256:f5452aeddd9988eefa20f90f05ab66f17fce1ee2a36907fd30b05bbb5953814d"},
+    {file = "click-8.1.8-py3-none-any.whl", hash = "sha256:63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2"},
+    {file = "click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a"},
 ]
 
 [package.dependencies]
@@ -4828,4 +4829,4 @@ openaleph = ["openaleph-procrastinate"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<4"
-content-hash = "8ab40c8d5dcfc4fb0fde757ecb94e44e8a4e4f7367a3aecaab1eb6fff1b693ec"
+content-hash = "f9d2a97c85dcfa29211538676e4bf1f53097e17e7d350283a1af658ad7362cfc"

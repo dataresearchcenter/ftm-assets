@@ -16,13 +16,13 @@ classifiers = [
 requires-python = ">=3.11,<4"
 dependencies = [
     "anystore (>=0.3.4,<0.4.0)",
-    "ftmq (>=0.8.3,<0.9.0)",
+    "ftmq (>=0.8.4,<0.9.0)",
     "fastapi (>=0.115.12,<0.116.0)",
     "pillow (>=11.2.1,<12.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
 ]
 [project.optional-dependencies]
-openaleph = ["openaleph-procrastinate @ git+https://github.com/openaleph/openaleph-procrastinate.git@main"]
+openaleph = ["openaleph-procrastinate (>=0.0.1,<0.0.2)"]
 
 [project.scripts]
 ftm-assets = "ftm_assets.cli:cli"

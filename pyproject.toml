@@ -21,6 +21,8 @@ dependencies = [
     "pillow (>=11.2.1,<12.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
 ]
+[project.optional-dependencies]
+openaleph = ["openaleph-procrastinate @ git+https://github.com/openaleph/openaleph-procrastinate@main"]
 
 [project.scripts]
 ftm-assets = "ftm_assets.cli:cli"
@@ -49,7 +51,7 @@ mkdocstrings-python = "^1.16.10"
 mkdocs-autorefs = "^1.4.1"
 mkdocs-material = "^9.6.12"
 mkdocs-click = "^0.9.0"
-redis = "^6.0.0"
+redis = ">4"
 fakeredis = "^2.29.0"
 uvicorn = "^0.34.2"
 

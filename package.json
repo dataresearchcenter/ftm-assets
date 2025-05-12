@@ -1,6 +1,6 @@
 {
   "name": "@dataresearchcenter/ftm-assets",
-  "version": "0.0.2",
+  "version": "0.0.3-rc1",
   "description": "javascript fetching logic for ftm-assets",
   "type": "module",
   "main": "dist/index.js",

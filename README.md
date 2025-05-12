@@ -39,6 +39,20 @@ curl https://localhost:8000/img/<entity_id>
 }
 ```
 
+## Run as an OpenAleph worker service
+
+To ingreate `ftm-assets` into the [OpenAleph](https://openaleph.org) ecosystem as a worker that processes entities, start the worker queue like this:
+
+    PROCRASTINATE_APP=ftm_assets.tasks.app procrastinate worker -q ftm-assets
+
+To defer tasks from other places, use `ftm-assets` as queue name and `ftm_assets.tasks.resolve_image` as the task identifier.
+
+### Docker
+
+Run the queue worker with changing the entrypoint to `procrastinate`:
+
+    docker run ghcr.io/dataresearchcenter/ftm-asstets --entrypoint procrastinate worker -q ftm-assets
+
 ## License and Copyright
 
 `ftm-assets`, (C) 2025 [Data and Research Center – DARC](https://dataresearchcenter.org)

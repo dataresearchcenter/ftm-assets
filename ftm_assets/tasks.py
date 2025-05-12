@@ -12,7 +12,7 @@ from openaleph_procrastinate.tasks import task
 
 from ftm_assets.logic import lookup_proxy
 
-app = make_app()
+app = make_app(__loader__.name)
 
 
 @task(app=app)

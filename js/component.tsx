@@ -37,21 +37,21 @@ export function ImageAttribution(props: { attribution: IImageAttribution }) {
 }
 
 export function EntityImage(props: IComponent) {
+  const [image, setImage] = useState<IImageMeta | null>(null);
   const entity = getProxy(props.entity);
-  // currently, only qid is supported
   const id = entity.getFirst("wikidataId");
-  if (!id) return null;
-
-  const [image, setImage] = useState<IImageMeta>();
 
   useEffect(() => {
-    getImage(props.api, id.toString()).then(setImage);
-  }, [id]);
+    // currently, only qid is supported
+    id &&
+      getImage(props.api, id.toString())
+        .then(setImage)
+        .catch(() => setImage(null));
+  }, [id, props.api]);
 
   return image ? (
-    <span className="ftm-assets__Image-wraper">
+    <span className="ftm-assets__Image-wrapper">
       <img
-        style={{ width: "100%", height: "auto" }}
         src={props.thumbnail ? image.thumbnail_url : image.url}
         alt={extractAlt(image)}
       />

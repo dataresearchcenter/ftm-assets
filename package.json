@@ -1,10 +1,16 @@
 {
   "name": "@dataresearchcenter/ftm-assets",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "javascript fetching logic for ftm-assets",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "dist/*"
+  ],
   "directories": {
     "test": "tests"
   },

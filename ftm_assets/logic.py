@@ -1,4 +1,4 @@
-from anystore.decorators import anycache
+from anystore.decorators import anycache, error_handler
 from anystore.io import smart_open
 from followthemoney.proxy import EntityProxy
 from followthemoney.types import registry
@@ -15,6 +15,7 @@ settings = Settings()
 log = get_logger(__name__)
 
 
+@error_handler(logger=log)
 @anycache(
     store=get_cache(),
     key_func=lambda i, s=None: f"thumbnails/{i.id}/{s or settings.thumbnail_size}",
@@ -25,14 +26,15 @@ def generate_thumbnail(img: "ImageModel", size: int | None = None) -> str:
     if not storage.exists(img.thumbnail_key):
         with smart_open(str(img.url)) as io:
             image = Image.open(io)
-            image.convert("RGB")
-            image.thumbnail((size, size))
+            rgb_img = image.convert("RGB")
+            rgb_img.thumbnail((size, size))
             with storage.open(img.thumbnail_key, "wb") as out:
-                image.save(out)
+                rgb_img.save(out)
         log.info("Generated thumbnail.", image=img.id, size=size, uri=img.thumbnail_key)
     return img.thumbnail_key
 
 
+@error_handler(logger=log)
 @anycache(
     store=get_cache(),
     key_func=lambda i: f"mirrored/{i.id}",
@@ -47,6 +49,7 @@ def mirror(img: "ImageModel") -> str:
     return img.key
 
 
+@error_handler(logger=log)
 @anycache(store=get_cache(), key_func=lambda x: x, model=ImageModel)
 def lookup(id: str) -> ImageModel | None:
     image = wikidata.resolve(id)

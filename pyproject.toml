@@ -22,7 +22,7 @@ dependencies = [
     "httpx (>=0.28.1,<0.29.0)",
 ]
 [project.optional-dependencies]
-openaleph = ["openaleph-procrastinate @ git+https://github.com/openaleph/openaleph-procrastinate@main"]
+openaleph = ["openaleph-procrastinate @ git+https://github.com/openaleph/openaleph-procrastinate.git@main"]
 
 [project.scripts]
 ftm-assets = "ftm_assets.cli:cli"
@@ -55,10 +55,7 @@ redis = ">4"
 fakeredis = "^2.29.0"
 uvicorn = "^0.34.2"
 
-
-
 [tool.poetry.dependencies]
-anystore = {develop = true}
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

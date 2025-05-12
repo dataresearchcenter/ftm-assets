@@ -2553,7 +2553,7 @@ django = ["django (>=5.2,<6.0)"]
 
 [package.source]
 type = "git"
-url = "https://github.com/openaleph/openaleph-procrastinate"
+url = "https://github.com/openaleph/openaleph-procrastinate.git"
 reference = "main"
 resolved_reference = "2120fdb1bdb346a9f1064e3f1450147cb81a8c34"
 
@@ -4829,4 +4829,4 @@ openaleph = ["openaleph-procrastinate"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<4"
-content-hash = "f9d2a97c85dcfa29211538676e4bf1f53097e17e7d350283a1af658ad7362cfc"
+content-hash = "69c6a7de4be944b7c3be21f666ada6adaa5897b5c958441af96ddd19d124cfde"

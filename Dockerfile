@@ -15,5 +15,7 @@ RUN pip install gunicorn uvicorn
 RUN pip install ".[openaleph]"
 RUN pip install psycopg-binary
 
+ENV PROCRASTINATE_APP "ftm_assets.tasks.app"
+
 USER 1000
 ENTRYPOINT ["gunicorn", "ftm_assets.api:app", "--bind", "0.0.0.0:8000", "--worker-class", "uvicorn.workers.UvicornWorker"]

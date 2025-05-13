@@ -50,7 +50,6 @@ def mirror(img: "ImageModel") -> str:
 
 
 @error_handler(logger=log)
-@anycache(store=get_cache(), key_func=lambda x, **k: x, model=ImageModel)
 def lookup(
     id: str, store: bool | None = False, thumbnail: bool | None = False
 ) -> ImageModel | None:
@@ -63,6 +62,7 @@ def lookup(
         return image
 
 
+@error_handler(logger=log)
 def lookup_proxy(proxy: EntityProxy) -> ImageModel | None:
     id = str(proxy.id)
     if is_qid(id):

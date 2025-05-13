@@ -50,14 +50,16 @@ def mirror(img: "ImageModel") -> str:
 
 
 @error_handler(logger=log)
-@anycache(store=get_cache(), key_func=lambda x: x, model=ImageModel)
-def lookup(id: str) -> ImageModel | None:
+@anycache(store=get_cache(), key_func=lambda x, **k: x, model=ImageModel)
+def lookup(
+    id: str, store: bool | None = False, thumbnail: bool | None = False
+) -> ImageModel | None:
     image = wikidata.resolve(id)
     if image is not None:
-        if settings.thumbnails:
-            generate_thumbnail(image)
-        if settings.mirror:
+        if store or settings.mirror:
             mirror(image)
+        if thumbnail or settings.thumbnails:
+            generate_thumbnail(image)
         return image
 
 

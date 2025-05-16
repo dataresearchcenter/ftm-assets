@@ -49,3 +49,6 @@ def test_api():
     assert (
         res.headers["location"] == "https://static.example.org/img/Q567/thumbs/600.jpg"
     )
+
+    res = client.get("/img/Q567?api_key=secret")
+    assert res.status_code == 200

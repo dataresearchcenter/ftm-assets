@@ -21,6 +21,10 @@ class ApiSettings(BaseModel):
     description_uri: str = "README.md"
     allowed_origins: list[str] = []
 
+    build_key: str = "secret-key-for-build"
+    """Backend api key to use for build processes to allow mirror & thumbnail
+    generation"""
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(

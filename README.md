@@ -1,3 +1,4 @@
+[![ftm-assets on pypi](https://img.shields.io/pypi/v/ftm-assets)](https://pypi.org/project/ftm-assets/)
 [![Python test and package](https://github.com/dataresearchcenter/ftm-assets/actions/workflows/python.yml/badge.svg)](https://github.com/dataresearchcenter/ftm-assets/actions/workflows/python.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 [![Coverage Status](https://coveralls.io/repos/github/dataresearchcenter/ftm-assets/badge.svg?branch=main)](https://coveralls.io/github/dataresearchcenter/ftm-assets?branch=main)
@@ -40,6 +41,8 @@ curl https://localhost:8000/img/<entity_id>
 ```
 
 ## Run as an OpenAleph worker service
+
+    pip install ftm-assets[openaleph]
 
 To ingreate `ftm-assets` into the [OpenAleph](https://openaleph.org) ecosystem as a worker that processes entities, start the worker queue like this:
 

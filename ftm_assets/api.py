@@ -47,7 +47,7 @@ app = FastAPI(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] if settings.debug else settings.api.allowed_origins,
+    allow_origins=["*"] if settings.debug else settings.api.allowed_origins or ["*"],
     allow_methods=["OPTIONS", "GET"],
 )
 

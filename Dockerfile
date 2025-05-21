@@ -1,9 +1,5 @@
 FROM ghcr.io/dataresearchcenter/ftmq:latest
 
-RUN apt update && apt upgrade -y
-RUN apt install -y git
-RUN apt autoremove -y && apt clean
-
 COPY ftm_assets /app/ftm_assets
 COPY setup.py /app/setup.py
 COPY pyproject.toml /app/pyproject.toml
@@ -15,7 +11,7 @@ RUN pip install gunicorn uvicorn
 RUN pip install ".[openaleph]"
 RUN pip install psycopg-binary
 
-ENV PROCRASTINATE_APP "ftm_assets.tasks.app"
+ENV PROCRASTINATE_APP="ftm_assets.tasks.app"
 
 USER 1000
 ENTRYPOINT ["gunicorn", "ftm_assets.api:app", "--bind", "0.0.0.0:8000", "--worker-class", "uvicorn.workers.UvicornWorker"]

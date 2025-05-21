@@ -1,6 +1,6 @@
 [project]
 name = "ftm-assets"
-version = "0.0.3"
+version = "0.0.4"
 description = "Assets (image) resolver for FollowTheMoney data"
 authors = [{ name = "Simon Wörpel", email = "simon.woerpel@pm.me" }]
 license = "AGPLv3+"
@@ -16,13 +16,13 @@ classifiers = [
 requires-python = ">=3.11,<4"
 dependencies = [
     "anystore (>=0.3.4,<0.4.0)",
-    "ftmq (>=0.8.3,<0.9.0)",
+    "ftmq (>=0.8.4,<0.9.0)",
     "fastapi (>=0.115.12,<0.116.0)",
     "pillow (>=11.2.1,<12.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
 ]
 [project.optional-dependencies]
-openaleph = ["openaleph-procrastinate @ git+https://github.com/openaleph/openaleph-procrastinate@main"]
+openaleph = ["openaleph-procrastinate (>=0.0.1,<0.0.2)"]
 
 [project.scripts]
 ftm-assets = "ftm_assets.cli:cli"
@@ -37,7 +37,7 @@ Issues = "https://github.com/dataresearchcenter/ftm-assets/issues"
 pytest = ">=7.4.3,<9.0.0"
 pytest-cov = ">=4.1,<7.0"
 black = ">=23.11,<26.0"
-isort = "^5.12.0"
+isort = "^6.0.1"
 mypy = "^1.7.0"
 pre-commit = "^4.0.1"
 flake8 = ">=6.1,<8.0"
@@ -48,17 +48,14 @@ pytest-env = "^1.1.1"
 bump-pydantic = ">=0.7,<0.9"
 mkdocs = "^1.6.1"
 mkdocstrings-python = "^1.16.10"
-mkdocs-autorefs = "^1.4.1"
-mkdocs-material = "^9.6.12"
+mkdocs-autorefs = "^1.4.2"
+mkdocs-material = "^9.6.14"
 mkdocs-click = "^0.9.0"
 redis = ">4"
 fakeredis = "^2.29.0"
 uvicorn = "^0.34.2"
 
-
-
 [tool.poetry.dependencies]
-anystore = {develop = true}
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

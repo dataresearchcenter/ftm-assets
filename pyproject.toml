@@ -1,6 +1,6 @@
 [project]
 name = "ftm-assets"
-version = "0.0.3"
+version = "0.0.4"
 description = "Assets (image) resolver for FollowTheMoney data"
 authors = [{ name = "Simon Wörpel", email = "simon.woerpel@pm.me" }]
 license = "AGPLv3+"

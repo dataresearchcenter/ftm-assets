@@ -12,6 +12,11 @@ storage = get_storage()
 IMAGE_PREFIX = "img"
 
 
+def exists(key: str) -> bool:
+    storage = get_storage()
+    return storage.exists(key) and storage.info(key).size > 0
+
+
 class Attribution(BaseModel):
     license: str
     license_url: HttpUrl
@@ -39,14 +44,12 @@ class Image(BaseModel):
         return f"{IMAGE_PREFIX}/{self.id}/thumbs/{settings.thumbnail_size}.jpg"
 
     def get_public_url(self) -> HttpUrl:
-        if settings.public_cdn_prefix is not None and storage.exists(self.key):
+        if settings.public_cdn_prefix is not None and exists(self.key):
             return HttpUrl(join_uri(settings.public_cdn_prefix, self.key))
         return self.url
 
     def get_thumbnail_url(self) -> HttpUrl:
-        if settings.public_cdn_prefix is not None and storage.exists(
-            self.thumbnail_key
-        ):
+        if settings.public_cdn_prefix is not None and exists(self.thumbnail_key):
             return HttpUrl(join_uri(settings.public_cdn_prefix, self.thumbnail_key))
         return self.get_public_url()
 

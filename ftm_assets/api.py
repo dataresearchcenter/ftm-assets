@@ -51,7 +51,7 @@ app.add_middleware(
     allow_methods=["OPTIONS", "GET"],
 )
 
-if settings.debug:
+if settings.dev_static:
     from fastapi.staticfiles import StaticFiles
 
     app.mount("/static", StaticFiles(directory="static"), name="static")

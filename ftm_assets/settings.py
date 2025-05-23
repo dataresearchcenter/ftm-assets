@@ -36,6 +36,9 @@ class Settings(BaseSettings):
     debug: bool = Field(default=False, alias="debug")
     """Debug mode"""
 
+    dev_static: bool = False
+    """Serve static files for development mode"""
+
     cache: StoreModel = StoreModel(uri=".cache")
     """Lookup cache"""
 

@@ -4,7 +4,6 @@ from anystore.io import smart_read
 from fastapi import Depends, FastAPI, Query
 from fastapi.exceptions import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse
 
 from ftm_assets import __version__
 from ftm_assets.logic import lookup
@@ -66,21 +65,3 @@ async def api_img_lookup(
     if res is None:
         raise HTTPException(status_code=404)
     return ApiImageResponse.from_image(res)
-
-
-@app.get("/r/img/{id}")
-async def api_img_redirect(id: str) -> RedirectResponse:
-    """Get image redirect to public url"""
-    res = lookup(id)
-    if res is None:
-        raise HTTPException(status_code=404)
-    return RedirectResponse(url=res.get_public_url())
-
-
-@app.get("/r/img/{id}/thumb")
-async def api_img_thumbnail_redirect(id: str) -> RedirectResponse:
-    """Get image redirect to public url"""
-    res = lookup(id)
-    if res is None:
-        raise HTTPException(status_code=404)
-    return RedirectResponse(url=res.get_thumbnail_url())

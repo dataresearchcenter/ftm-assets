@@ -37,18 +37,5 @@ def test_api():
         "thumbnail_url": "https://static.example.org/img/Q567/thumbs/600.jpg",
     }
 
-    res = client.get("/r/img/Q567", follow_redirects=False)
-    assert res.status_code == 307
-    assert (
-        res.headers["location"]
-        == "https://static.example.org/img/Q567/Angela%20Merkel%20(51614156068).jpg"
-    )
-
-    res = client.get("/r/img/Q567/thumb", follow_redirects=False)
-    assert res.status_code == 307
-    assert (
-        res.headers["location"] == "https://static.example.org/img/Q567/thumbs/600.jpg"
-    )
-
     res = client.get("/img/Q567?api_key=secret")
     assert res.status_code == 200

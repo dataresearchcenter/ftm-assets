@@ -21,6 +21,8 @@ class Attribution(BaseModel):
     license: str
     license_url: HttpUrl
     author: str | None = None
+    source: str | None = None
+    source_url: HttpUrl | None = None
 
 
 class AltText(BaseModel):

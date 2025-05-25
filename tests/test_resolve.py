@@ -24,6 +24,8 @@ def test_logic_lookup():
             "license": "CC BY 4.0",
             "license_url": "https://creativecommons.org/licenses/by/4.0/",
             "author": None,
+            "source": "Wikimedia Commons",
+            "source_url": "https://commons.wikimedia.org/wiki/File:Angela%20Merkel%20(51614156068).jpg",
         },
     }
 

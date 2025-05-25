@@ -90,6 +90,10 @@ def resolve(id: str) -> Image | None:
                             license_url=HttpUrl(
                                 "https://creativecommons.org/licenses/by/4.0/"
                             ),
+                            source="Wikimedia Commons",
+                            source_url=HttpUrl(
+                                f"https://commons.wikimedia.org/wiki/File:{candidate['name']}"
+                            ),
                         ),
                     )
         except Exception as e:

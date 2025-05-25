@@ -53,7 +53,10 @@ def extract_date(claim: SDict) -> str:
 
 
 @anycache(
-    store=get_cache(), key_func=lambda x: f"resolve/wikidata/{x}", ttl=3600, model=Image
+    store=get_cache(),
+    key_func=lambda x: f"resolve/wikidata/{x}",
+    ttl=3600 * 24,
+    model=Image,
 )
 def resolve(id: str) -> Image | None:
     # FIXME use `nomenklatura.wikidata` client?

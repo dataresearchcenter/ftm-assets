@@ -53,6 +53,16 @@ def mirror(img: "ImageModel") -> str:
 def lookup(
     id: str, store: bool | None = False, thumbnail: bool | None = False
 ) -> ImageModel | None:
+    res = ImageModel.from_id(id)
+    if res is not None:
+        return res
+    return resolve(id, store, thumbnail)
+
+
+@error_handler(logger=log)
+def resolve(
+    id: str, store: bool | None = False, thumbnail: bool | None = False
+) -> ImageModel | None:
     image = wikidata.resolve(id)
     if image is not None:
         if store or settings.mirror:

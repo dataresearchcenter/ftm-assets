@@ -4,7 +4,7 @@ from ftm_assets.store import get_storage
 
 
 def test_logic_lookup():
-    res = logic.lookup("Q567")
+    res = logic.resolve("Q567")
     assert isinstance(res, Image)
     assert res.model_dump(mode="json") == {
         "id": "Q567",

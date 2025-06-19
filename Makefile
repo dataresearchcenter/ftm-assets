@@ -29,6 +29,9 @@ test:
 build:
 	poetry run build
 
+build-docker:
+	docker build . -t ghcr.io/openaleph/ftm-assets
+
 clean:
 	rm -fr build/
 	rm -fr dist/

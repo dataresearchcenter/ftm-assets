@@ -52,7 +52,7 @@ mkdocs-autorefs = "^1.4.2"
 mkdocs-material = "^9.6.14"
 mkdocs-click = "^0.9.0"
 redis = ">4"
-fakeredis = "^2.29.0"
+fakeredis = "^2.31.0"
 uvicorn = "^0.34.2"
 
 [tool.poetry.dependencies]

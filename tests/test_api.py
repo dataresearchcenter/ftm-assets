@@ -41,3 +41,27 @@ def test_api():
 
     res = client.get("/img/Q567?api_key=secret")
     assert res.status_code == 200
+
+
+def test_api_manual_image():
+    """Manually registered image should be returned by the API."""
+    from ftm_assets import repository
+    from ftm_assets.model import Image
+
+    storage = repository.get_storage()
+    key = repository.make_key("API_TEST1", "photo.jpg")
+    with storage.open(key, "wb") as f:
+        f.write(b"fake image data")
+    image = Image(
+        id="API_TEST1",
+        name="photo.jpg",
+        url="https://example.org/photo.jpg",
+    )
+    repository.save_metadata(image)
+
+    client = TestClient(app)
+    res = client.get("/img/API_TEST1")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["id"] == "API_TEST1"
+    assert data["name"] == "photo.jpg"

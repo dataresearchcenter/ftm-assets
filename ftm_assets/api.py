@@ -5,7 +5,7 @@ from fastapi import Depends, FastAPI, Query
 from fastapi.exceptions import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from ftm_assets import __version__
+from ftm_assets import __version__, repository
 from ftm_assets.logic import lookup
 from ftm_assets.model import ApiImageResponse
 from ftm_assets.settings import Settings
@@ -64,4 +64,8 @@ async def api_img_lookup(
     res = lookup(id, store=authenticated, thumbnail=authenticated)
     if res is None:
         raise HTTPException(status_code=404)
-    return ApiImageResponse.from_image(res)
+    return ApiImageResponse.from_image(
+        res,
+        public_url=repository.get_public_url(res),
+        thumbnail_url=repository.get_thumbnail_url(res),
+    )

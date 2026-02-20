@@ -1424,18 +1424,17 @@ pypi = ["griffelib[pypi] (==2.0.0)"]
 
 [[package]]
 name = "griffe-pydantic"
-version = "1.3.0"
+version = "1.3.1"
 description = "Griffe extension for Pydantic."
 optional = false
 python-versions = ">=3.10"
 groups = ["dev"]
 files = [
-    {file = "griffe_pydantic-1.3.0-py3-none-any.whl", hash = "sha256:6cb6f821f7cbf1ea0fd9905eb5f3a5adbff0dfbd0b3f2ca1b2156ad8fb3a0b24"},
-    {file = "griffe_pydantic-1.3.0.tar.gz", hash = "sha256:4b3a5fb7cf812a8ea8ad0d1f907133a28ee680d352fe4b4e0e7bebd3d5401c97"},
+    {file = "griffe_pydantic-1.3.1-py3-none-any.whl", hash = "sha256:475103794a1d5da3933d3968e82a2bd9d9a1fa507c06d5ee1a39ee1fadcca628"},
 ]
 
 [package.dependencies]
-griffe = ">=1.14"
+griffelib = ">=2.0"
 
 [[package]]
 name = "griffecli"

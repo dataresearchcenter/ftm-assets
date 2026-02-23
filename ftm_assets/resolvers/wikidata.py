@@ -7,7 +7,6 @@ https://www.wikidata.org/w/api.php?action=wbgetclaims&property=P18&entity=Q7747
 from datetime import datetime
 
 import httpx
-from anystore.decorators import anycache
 from anystore.types import SDict
 from banal import ensure_list
 from pydantic import HttpUrl
@@ -16,10 +15,11 @@ from rigour.ids.wikidata import is_qid
 from ftm_assets.logging import get_logger
 from ftm_assets.model import Attribution, Image
 from ftm_assets.settings import Settings
-from ftm_assets.store import get_cache
 
 log = get_logger(__name__)
 settings = Settings()
+
+USER_AGENT = "ftm-assets/0.0.4 (https://github.com/dataresearchcenter/ftm-assets)"
 
 BASE_URL = (
     "https://www.wikidata.org/w/api.php?action=wbgetclaims"
@@ -31,8 +31,13 @@ IMAGE_URL = (
 )
 
 
+HEADERS = {"User-Agent": USER_AGENT}
+
+
 def resolve_image_url(name: str) -> str | None:
-    res = httpx.head(IMAGE_URL.format(name=name), follow_redirects=True)
+    res = httpx.head(
+        IMAGE_URL.format(name=name), follow_redirects=True, headers=HEADERS
+    )
     if res.status_code == 404:
         log.error("Image redirect not found", name=name)
         return
@@ -52,15 +57,12 @@ def extract_date(claim: SDict) -> str:
     return datetime(1970, 1, 1).isoformat()
 
 
-@anycache(
-    store=get_cache(), key_func=lambda x: f"resolve/wikidata/{x}", ttl=3600, model=Image
-)
 def resolve(id: str) -> Image | None:
     # FIXME use `nomenklatura.wikidata` client?
     if is_qid(id):
         try:
             url = BASE_URL.format(qid=id)
-            res = httpx.get(url)
+            res = httpx.get(url, headers=HEADERS)
             res.raise_for_status()
             data = res.json()
             candidates: list[SDict] = []
@@ -89,6 +91,10 @@ def resolve(id: str) -> Image | None:
                             license="CC BY 4.0",
                             license_url=HttpUrl(
                                 "https://creativecommons.org/licenses/by/4.0/"
+                            ),
+                            source="Wikimedia Commons",
+                            source_url=HttpUrl(
+                                f"https://commons.wikimedia.org/wiki/File:{candidate['name']}"
                             ),
                         ),
                     )

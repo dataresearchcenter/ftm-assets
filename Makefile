@@ -27,7 +27,10 @@ test:
 	rm -rf .test-store
 
 build:
-	poetry run build
+	poetry build
+
+build-docker:
+	docker build . -t ghcr.io/openaleph/ftm-assets
 
 clean:
 	rm -fr build/
@@ -42,3 +45,9 @@ clean:
 
 api:
 	uvicorn ftm_assets.api:app --reload --port 5000
+
+docs:
+	PATH=.venv/bin:$$PATH .venv/bin/mkdocs serve
+
+docs-build:
+	PATH=.venv/bin:$$PATH .venv/bin/mkdocs build

@@ -13,16 +13,16 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
-requires-python = ">=3.11,<4"
+requires-python = ">=3.11,<3.14"
 dependencies = [
-    "anystore (>=0.3.4,<0.4.0)",
-    "ftmq (>=0.8.4,<0.9.0)",
-    "fastapi (>=0.115.12,<0.116.0)",
-    "pillow (>=11.2.1,<12.0.0)",
+    "anystore (>=1.1.0,<2.0.0)",
+    "ftmq (>=4.5.4,<5.0.0)",
+    "fastapi (>=0.129.0,<0.130.0)",
+    "pillow (>=12.1.1,<13.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
 ]
 [project.optional-dependencies]
-openaleph = ["openaleph-procrastinate (>=0.0.1,<0.0.2)"]
+openaleph = ["openaleph-procrastinate (>=0.0.5,<0.1.0)"]
 
 [project.scripts]
 ftm-assets = "ftm_assets.cli:cli"
@@ -50,9 +50,8 @@ mkdocs = "^1.6.1"
 mkdocstrings-python = "^1.16.10"
 mkdocs-autorefs = "^1.4.2"
 mkdocs-material = "^9.6.14"
-mkdocs-click = "^0.9.0"
-redis = ">4"
-fakeredis = "^2.29.0"
+mkdocs-typer2 = "^0.1.4"
+griffe-pydantic = "^1.1.0"
 uvicorn = "^0.34.2"
 
 [tool.poetry.dependencies]
@@ -62,9 +61,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest_env]
 DEBUG = 1
-FTM_ASSETS_CACHE_URI = "redis://localhost"
 FTM_ASSETS_STORE_URI = ".test-store"
 FTM_ASSETS_PUBLIC_CDN_PREFIX = "https://static.example.org"
 FTM_ASSETS_MIRROR = 1
 FTM_ASSETS_THUMBNAILS = 1
-REDIS_DEBUG = 1

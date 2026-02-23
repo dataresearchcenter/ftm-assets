@@ -1,5 +1,5 @@
 from anystore.model import StoreModel
-from pydantic import BaseModel, Field  # , ImportString
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich import print
 
@@ -36,11 +36,11 @@ class Settings(BaseSettings):
     debug: bool = Field(default=False, alias="debug")
     """Debug mode"""
 
-    cache: StoreModel = StoreModel(uri=".cache")
-    """Lookup cache"""
+    dev_static: bool = False
+    """Serve static files for development mode"""
 
     store: StoreModel = StoreModel(uri="static")
-    """Storage for mirrored assets"""
+    """Storage for mirrored assets and their metadata"""
 
     mirror: bool = False
     """Mirror assets from remotes on demand"""

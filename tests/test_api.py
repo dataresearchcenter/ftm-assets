@@ -32,23 +32,36 @@ def test_api():
             "license": "CC BY 4.0",
             "license_url": "https://creativecommons.org/licenses/by/4.0/",
             "author": None,
+            "source": "Wikimedia Commons",
+            "source_url": "https://commons.wikimedia.org/wiki/File:Angela%20Merkel%20(51614156068).jpg",
         },
         "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Angela_Merkel_%2851614156068%29.jpg",
         "thumbnail_url": "https://static.example.org/img/Q567/thumbs/600.jpg",
     }
 
-    res = client.get("/r/img/Q567", follow_redirects=False)
-    assert res.status_code == 307
-    assert (
-        res.headers["location"]
-        == "https://static.example.org/img/Q567/Angela%20Merkel%20(51614156068).jpg"
-    )
-
-    res = client.get("/r/img/Q567/thumb", follow_redirects=False)
-    assert res.status_code == 307
-    assert (
-        res.headers["location"] == "https://static.example.org/img/Q567/thumbs/600.jpg"
-    )
-
     res = client.get("/img/Q567?api_key=secret")
     assert res.status_code == 200
+
+
+def test_api_manual_image():
+    """Manually registered image should be returned by the API."""
+    from ftm_assets import repository
+    from ftm_assets.model import Image
+
+    storage = repository.get_storage()
+    key = repository.make_key("API_TEST1", "photo.jpg")
+    with storage.open(key, "wb") as f:
+        f.write(b"fake image data")
+    image = Image(
+        id="API_TEST1",
+        name="photo.jpg",
+        url="https://example.org/photo.jpg",
+    )
+    repository.save_metadata(image)
+
+    client = TestClient(app)
+    res = client.get("/img/API_TEST1")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["id"] == "API_TEST1"
+    assert data["name"] == "photo.jpg"

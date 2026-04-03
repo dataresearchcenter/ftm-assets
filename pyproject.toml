@@ -50,7 +50,7 @@ mkdocs = "^1.6.1"
 mkdocstrings-python = "^1.16.10"
 mkdocs-autorefs = "^1.4.2"
 mkdocs-material = "^9.6.14"
-mkdocs-typer2 = "^0.2.0"
+mkdocs-typer2 = "^0.2.1"
 griffe-pydantic = "^1.1.0"
 uvicorn = "^0.34.2"
 

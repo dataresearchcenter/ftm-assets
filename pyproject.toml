@@ -9,20 +9,20 @@ classifiers = [
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.15"
 dependencies = [
-    "anystore (>=1.1.0,<2.0.0)",
-    "ftmq (>=4.5.4,<5.0.0)",
-    "fastapi (>=0.129.0,<0.130.0)",
-    "pillow (>=12.1.1,<13.0.0)",
+    "anystore (>=1.5.1,<2.0.0)",
+    "ftmq (>=5.2.0,<6.0.0)",
+    "pillow (>=12.3.0,<13.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
+    "putfs[client] (>=0.6.0,<0.7.0)",
 ]
 [project.optional-dependencies]
-openaleph = ["openaleph-procrastinate (>=0.0.5,<0.1.0)"]
+openaleph = ["openaleph-procrastinate (>=5.0.0,<6.0.0)"]
 
 [project.scripts]
 ftm-assets = "ftm_assets.cli:cli"
@@ -38,7 +38,7 @@ pytest = ">=7.4.3,<9.0.0"
 pytest-cov = ">=4.1,<7.0"
 black = ">=23.11,<26.0"
 isort = "^6.0.1"
-mypy = "^1.7.0"
+mypy = "^2.0.0"
 pre-commit = "^4.0.1"
 flake8 = ">=6.1,<8.0"
 ipdb = "^0.13.13"

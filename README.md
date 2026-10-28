@@ -23,7 +23,7 @@ Storage backends beyond the local filesystem need the matching [anystore](https:
 ## Build images
 
 ```bash
-export FTM_ASSETS_STORE_URI=s3://my-bucket  # default: ./static
+export FTM_ASSETS_STORE_URI=s3://my-bucket/img  # default: ./static
 
 cat entities.ftm.json | ftm-assets load-entities
 echo "Q567" | ftm-assets load-ids
@@ -36,10 +36,12 @@ Images that are already in the store are not resolved again.
 Layout of the store:
 
 ```
-img/<entity_id>/meta.json          # metadata, written last
-img/<entity_id>/<sha256>.<ext>     # mirrored original image, by its checksum
-img/<entity_id>/thumbs/600.jpg     # thumbnail
+<entity_id>/meta.json          # metadata, written last
+<entity_id>/<sha256>.<ext>     # mirrored original image, by its checksum
+<entity_id>/thumbs/600.jpg     # thumbnail
 ```
+
+Paths are relative to the store root (`FTM_ASSETS_STORE_URI`), which can be any prefix, e.g. `s3://my-bucket/img`.
 
 `meta.json` is only written after the image and its thumbnail are stored, so its presence means the image is complete. A missing `meta.json` (404) means there is no image for this entity.
 
@@ -82,9 +84,9 @@ The npm package `@dataresearchcenter/ftm-assets` implements this lookup and prov
 ```tsx
 import { EntityImage, getImage } from "@dataresearchcenter/ftm-assets";
 
-<EntityImage entity={entity} root="https://assets.example.org" thumbnail />;
+<EntityImage entity={entity} root="https://assets.example.org/img" thumbnail />;
 
-const image = await getImage("https://assets.example.org", "Q567");
+const image = await getImage("https://assets.example.org/img", "Q567");
 ```
 
 ## Run as an OpenAleph worker service

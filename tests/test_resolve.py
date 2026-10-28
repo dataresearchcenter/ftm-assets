@@ -155,5 +155,5 @@ def test_build_svg(monkeypatch):
     res = logic.build(image)
     assert res is not None
     assert res.url == res.thumbnail_url == f"{res.sha256}.svg"
-    assert repository.get_data(f"img/SVG1/{res.url}") == svg
+    assert repository.get_data(f"SVG1/{res.url}") == svg
     assert not repository.exists(repository.make_thumbnail_key("SVG1"))

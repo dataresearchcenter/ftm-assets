@@ -2,9 +2,12 @@
 Storage layout. The store is meant to be served statically, clients find an
 image via its `meta.json` and resolve the relative urls in it:
 
-    img/{id}/meta.json          # Image model, written last (image is complete)
-    img/{id}/{sha256}{ext}      # mirrored original, by its checksum
-    img/{id}/thumbs/{size}.jpg  # thumbnail
+    {id}/meta.json          # Image model, written last (image is complete)
+    {id}/{sha256}{ext}      # mirrored original, by its checksum
+    {id}/thumbs/{size}.jpg  # thumbnail
+
+Keys are relative to the store root (`FTM_ASSETS_STORE_URI`), which can be any
+prefix, e.g. `s3://my-bucket/img`.
 """
 
 from functools import cache
@@ -18,7 +21,6 @@ from ftm_assets.settings import Settings
 
 settings = Settings()
 
-IMAGE_PREFIX = "img"
 META_FILENAME = "meta.json"
 
 
@@ -31,24 +33,24 @@ def make_key(id: str, checksum: str, name: str) -> str:
     """Key of the original image: its sha256 checksum with the file extension
     of its `name`"""
     suffix = PurePosixPath(name).suffix.lower()
-    return f"{IMAGE_PREFIX}/{id}/{checksum}{suffix}"
+    return f"{id}/{checksum}{suffix}"
 
 
 def make_thumbnail_key(id: str) -> str:
-    return f"{IMAGE_PREFIX}/{id}/thumbs/{settings.thumbnail_size}.jpg"
+    return f"{id}/thumbs/{settings.thumbnail_size}.jpg"
 
 
 def make_meta_key(id: str) -> str:
-    return f"{IMAGE_PREFIX}/{id}/{META_FILENAME}"
+    return f"{id}/{META_FILENAME}"
 
 
 def make_relative_url(id: str, key: str) -> str:
     """Url of the given key relative to the image's meta.json"""
-    return quote(key.removeprefix(f"{IMAGE_PREFIX}/{id}/"))
+    return quote(key.removeprefix(f"{id}/"))
 
 
 def get_image(id: str) -> Image | None:
-    """Load the Image model from img/{id}/meta.json, if it exists."""
+    """Load the Image model from {id}/meta.json, if it exists."""
     storage = get_storage()
     meta_key = make_meta_key(id)
     if storage.exists(meta_key):
@@ -57,7 +59,7 @@ def get_image(id: str) -> Image | None:
 
 
 def save_metadata(image: Image) -> None:
-    """Persist Image model as img/{id}/meta.json."""
+    """Persist Image model as {id}/meta.json."""
     storage = get_storage()
     meta_key = make_meta_key(image.id)
     storage.put(meta_key, image, model=Image)

@@ -29,11 +29,11 @@ flowchart TD
 
 ## Store as single source of truth
 
-There is no separate cache layer and no api. The store (`FTM_ASSETS_STORE_URI`) holds everything and is meant to be served statically:
+The store (`FTM_ASSETS_STORE_URI`) holds everything and is meant to be served statically. Keys are relative to the store root, which can be any prefix (e.g. `s3://my-bucket/img`):
 
-- `img/{id}/meta.json` — full `Image` model (attribution, alt text, relative urls)
-- `img/{id}/{sha256}{ext}` — mirrored original image, by its sha256 checksum (with the file extension of its source)
-- `img/{id}/thumbs/{size}.jpg` — generated thumbnail
+- `{id}/meta.json` — full `Image` model (attribution, alt text, relative urls)
+- `{id}/{sha256}{ext}` — mirrored original image, by its sha256 checksum (with the file extension of its source)
+- `{id}/thumbs/{size}.jpg` — generated thumbnail
 
 `url` and `thumbnail_url` in `meta.json` are relative to its location, `original_url` is the source of the original image (see [`meta.json` fields](../usage.md#metajson)).
 

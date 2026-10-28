@@ -3,8 +3,9 @@ import { IImageMeta } from "./types";
 export * from "./component";
 export * from "./types";
 
+// root is the url the store is served from, with or without trailing slash
 const makeMetaUrl = (root: string, id: string): string =>
-  `${root}/img/${id}/meta.json`;
+  `${root.replace(/\/+$/, "")}/${id}/meta.json`;
 
 // urls in meta.json are relative to its location
 const resolveUrl = (url: string, base: string): string =>

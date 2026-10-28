@@ -20,6 +20,9 @@ export FTM_ASSETS_STORE_URI=./static
 # S3 (or S3 compatible via FSSPEC_S3_ENDPOINT_URL), credentials via AWS_* env vars
 export FTM_ASSETS_STORE_URI=s3://my-bucket
 
+# ... or any prefix in it
+export FTM_ASSETS_STORE_URI=s3://my-bucket/img
+
 # PutFS server
 export FTM_ASSETS_STORE_URI=putfs://assets.example.org
 ```
@@ -54,12 +57,14 @@ Changing `FTM_ASSETS_THUMBNAIL_SIZE` only affects images built afterwards. The a
 The store can be served as is. Layout:
 
 ```
-img/<entity_id>/meta.json          # metadata, written last
-img/<entity_id>/<sha256>.<ext>     # mirrored original image, by its checksum
-img/<entity_id>/thumbs/600.jpg     # thumbnail
+<entity_id>/meta.json          # metadata, written last
+<entity_id>/<sha256>.<ext>     # mirrored original image, by its checksum
+<entity_id>/thumbs/600.jpg     # thumbnail
 ```
 
-Clients fetch `img/<entity_id>/meta.json`. A 404 means there is no image for this entity.
+Paths are relative to the store root (`FTM_ASSETS_STORE_URI`), which can be any prefix, e.g. `s3://my-bucket/img`.
+
+Clients fetch `<entity_id>/meta.json` relative to the url the store is served from (`root`). A 404 means there is no image for this entity.
 
 ### `meta.json`
 
@@ -77,7 +82,7 @@ Clients fetch `img/<entity_id>/meta.json`. A 404 means there is no image for thi
 Resolve the relative urls against the url `meta.json` was fetched from:
 
 ```js
-const res = await fetch(`${root}/img/${id}/meta.json`);
+const res = await fetch(`${root}/${id}/meta.json`);
 if (res.ok) {
   const image = await res.json();
   const src = new URL(image.thumbnail_url, res.url).toString();

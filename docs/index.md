@@ -8,9 +8,7 @@
 
 Resolve and build assets (currently images) for [FollowTheMoney](https://followthemoney.tech) entities.
 
-`ftm-assets` finds an image for an entity via its [Wikidata](https://www.wikidata.org) id (with an [Openverse](https://openverse.org) search by entity name as fallback), mirrors it and generates a thumbnail into a store: a local directory, a S3 bucket, a [PutFS](https://putf.sh) server, ...
-
-There is no api server. The store is meant to be served statically, clients find images by a simple path convention.
+`ftm-assets` finds an image for an entity via its [Wikidata](https://www.wikidata.org) id (with an [Openverse](https://openverse.org) search by entity name as fallback), mirrors it and generates a thumbnail into a store: a local directory, a S3 bucket, a [PutFS](https://putf.sh) server, ...  This store is meant to be served statically, clients find images by a simple path convention.
 
 ## Installation
 

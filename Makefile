@@ -36,8 +36,6 @@ clean:
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-docs:
-	PATH=.venv/bin:$$PATH .venv/bin/mkdocs serve
-
-docs-build:
-	PATH=.venv/bin:$$PATH .venv/bin/mkdocs build
+documentation:
+	zensical build
+	putfs sync --delete ./site putfs://static.darc.zone/openaleph.org/docs/lib/ftm-assets

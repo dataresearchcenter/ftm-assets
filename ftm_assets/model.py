@@ -1,5 +1,3 @@
-from typing import Self
-
 from pydantic import BaseModel, HttpUrl
 
 
@@ -17,27 +15,20 @@ class AltText(BaseModel):
 
 
 class Image(BaseModel):
+    """Image metadata, stored as `meta.json` next to the image files. `url` and
+    `thumbnail_url` are relative to the `meta.json` location, so clients can
+    resolve them against wherever the store is served from."""
+
     id: str
     name: str
-    url: HttpUrl
+    """Filename of the original image at its source"""
+    sha256: str | None = None
+    """Checksum of the original image, its key in the store"""
+    url: str | None = None
+    """Mirrored original image, relative to `meta.json`"""
+    thumbnail_url: str | None = None
+    """Thumbnail, relative to `meta.json`"""
+    original_url: HttpUrl | None = None
+    """Source of the original image, if known"""
     alt: list[AltText] = []
     attribution: Attribution | None = None
-
-
-class ApiImageResponse(Image):
-    original_url: HttpUrl
-    thumbnail_url: HttpUrl
-
-    @classmethod
-    def from_image(
-        cls, image: Image, public_url: HttpUrl, thumbnail_url: HttpUrl
-    ) -> Self:
-        return cls(
-            id=image.id,
-            name=image.name,
-            alt=image.alt,
-            attribution=image.attribution,
-            url=public_url,
-            original_url=image.url,
-            thumbnail_url=thumbnail_url,
-        )

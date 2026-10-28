@@ -6,7 +6,7 @@ import { getImage } from ".";
 const DEFAULT_LANG = "en";
 
 interface IComponent extends IEntityComponent {
-  readonly api: string;
+  readonly root: string; // base url the asset store is served from
   readonly thumbnail?: boolean;
 }
 
@@ -44,10 +44,10 @@ export function EntityImage(props: IComponent) {
   useEffect(() => {
     // currently, only qid is supported
     id &&
-      getImage(props.api, id.toString())
+      getImage(props.root, id.toString())
         .then(setImage)
         .catch(() => setImage(null));
-  }, [id, props.api]);
+  }, [id, props.root]);
 
   return image ? (
     <span className="ftm-assets__Image-wrapper">
@@ -55,7 +55,9 @@ export function EntityImage(props: IComponent) {
         src={props.thumbnail ? image.thumbnail_url : image.url}
         alt={extractAlt(image)}
       />
-      <ImageAttribution attribution={image.attribution} />
+      {image.attribution ? (
+        <ImageAttribution attribution={image.attribution} />
+      ) : null}
     </span>
   ) : null;
 }

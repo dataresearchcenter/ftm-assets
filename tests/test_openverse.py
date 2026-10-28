@@ -1,5 +1,12 @@
+import httpx
+import pytest
+
 from ftm_assets.model import Image
 from ftm_assets.resolvers import openverse
+
+# Openverse is flaky on CI (rate limits, Cloudflare bot checks), only fail on
+# wrong results
+pytestmark = pytest.mark.xfail(raises=httpx.HTTPError, strict=False)
 
 
 def test_openverse_resolve():

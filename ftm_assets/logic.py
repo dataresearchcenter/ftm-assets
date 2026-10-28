@@ -41,7 +41,10 @@ def mirror(img: ImageModel) -> str:
 
 @error_handler(logger=log)
 def generate_thumbnail(img: ImageModel, key: str) -> str:
-    """Generate the thumbnail from the mirrored original image at `key`"""
+    """Generate the thumbnail from the mirrored original image at `key`. Vector
+    images (svg) scale by themselves, they are their own thumbnail."""
+    if key.lower().endswith(".svg"):
+        return key
     size = settings.thumbnail_size
     thumbnail_key = repository.make_thumbnail_key(img.id)
     if not repository.exists(thumbnail_key):

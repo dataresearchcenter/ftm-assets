@@ -69,7 +69,7 @@ Clients fetch `img/<entity_id>/meta.json`. A 404 means there is no image for thi
 | `name` | Filename of the original image at its source |
 | `sha256` | Checksum of the original image, its key in the store |
 | `url` | Mirrored original image, relative to `meta.json` |
-| `thumbnail_url` | Thumbnail, relative to `meta.json` |
+| `thumbnail_url` | Thumbnail, relative to `meta.json`. Vector images (svg) are their own thumbnail |
 | `original_url` | Source of the original image, if known |
 | `alt` | List of alt texts (`text`, `language`) |
 | `attribution` | `license`, `license_url`, `author`, `source`, `source_url` |
@@ -88,7 +88,7 @@ if (res.ok) {
 
 - Try it locally with `python -m http.server --directory ./static`.
 - When `meta.json` is fetched by a browser from another origin, the server needs to send CORS headers (`Access-Control-Allow-Origin`) for `GET` requests.
-- On S3, files are uploaded without an explicit `Content-Type`. Browsers still display the images and `fetch().json()` doesn't care, but configure the bucket or CDN if you need proper content types (e.g. for direct links).
+- On S3, files are uploaded without an explicit `Content-Type`. Browsers still display raster images and `fetch().json()` doesn't care, but svg images are only displayed with `Content-Type: image/svg+xml`, so configure the bucket or CDN for proper content types.
 
 ## JavaScript
 

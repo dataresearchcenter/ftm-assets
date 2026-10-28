@@ -143,3 +143,17 @@ def test_lookup_proxy_openverse_fallback(monkeypatch):
     calls.clear()
     assert logic.lookup("Q99999999") is None
     assert calls == []
+
+
+def test_build_svg(monkeypatch):
+    """Vector images are their own thumbnail."""
+    svg = b'<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>'
+    monkeypatch.setattr(logic, "download_image", lambda url: svg)
+    image = Image(
+        id="SVG1", name="Coat of arms.SVG", original_url="https://example.org/a.svg"
+    )
+    res = logic.build(image)
+    assert res is not None
+    assert res.url == res.thumbnail_url == f"{res.sha256}.svg"
+    assert repository.get_data(f"img/SVG1/{res.url}") == svg
+    assert not repository.exists(repository.make_thumbnail_key("SVG1"))

@@ -117,3 +117,5 @@ from ftm_assets.logic import lookup
 
 image = lookup("Q567")  # from the store, or resolved and built
 ```
+
+`lookup()` returns `None` if there is no image, and raises if resolving or building it fails.

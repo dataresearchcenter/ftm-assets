@@ -41,6 +41,14 @@ The store (`FTM_ASSETS_STORE_URI`) holds everything and is meant to be served st
 
 On subsequent lookups for the same ID, `lookup()` finds the metadata in the store and returns immediately without calling Wikidata.
 
+## Errors
+
+`ftm_assets.logic` raises on any failure, `None` only means that there is no image. Openverse is only searched if Wikidata answered without an image, a failed Wikidata request raises instead. A fallback image would stay in the store.
+
+Requests that are rate limited or hit an unavailable server (status 429 or 503) are retried first, waiting for `Retry-After` if the server sends it, with an exponential backoff otherwise.
+
+The CLI logs a failed image and continues with the next one. In the task queue the error fails the job.
+
 ## Python reference
 
 ::: ftm_assets.logic

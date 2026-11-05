@@ -1,7 +1,8 @@
 import re
-from contextlib import suppress
 
+import pytest
 from followthemoney import model
+from PIL import UnidentifiedImageError
 
 from ftm_assets import logic, repository
 from ftm_assets.model import Image
@@ -112,8 +113,8 @@ def test_build_incomplete(monkeypatch):
     """meta.json is only written if mirroring and thumbnail generation succeed."""
     # no source url and nothing stored
     image = Image(id="INCOMPLETE1", name="photo.jpg")
-    with suppress(Exception):  # raises in debug mode
-        assert logic.build(image) is None
+    with pytest.raises(ValueError):
+        logic.build(image)
     assert repository.get_image("INCOMPLETE1") is None
 
     # original is not an image
@@ -121,8 +122,8 @@ def test_build_incomplete(monkeypatch):
     image = Image(
         id="INCOMPLETE2", name="photo.jpg", original_url="https://example.org/a.jpg"
     )
-    with suppress(Exception):
-        assert logic.build(image) is None
+    with pytest.raises(UnidentifiedImageError):
+        logic.build(image)
     assert repository.get_image("INCOMPLETE2") is None
 
 

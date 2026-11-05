@@ -6747,4 +6747,4 @@ openaleph = ["openaleph-procrastinate"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.15"
-content-hash = "8c25fd62cb5af439ddca9f6dced8c78e75a227a3a7561bbf86d6877beb5523c0"
+content-hash = "a7d6e3cab6de3cac8b16ccb366798c2f0650a245df76c226449520623672d75c"

@@ -15,14 +15,14 @@ classifiers = [
 ]
 requires-python = ">=3.12,<3.15"
 dependencies = [
-    "anystore (>=1.5.5,<2.0.0)",
-    "ftmq (>=5.3.0,<6.0.0)",
+    "anystore (>=1.5.7,<2.0.0)",
+    "ftmq (>=5.3.2,<6.0.0)",
     "pillow (>=13.0.0,<14.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
-    "putfs[client] (>=0.6.0,<0.7.0)",
+    "putfs[client] (>=0.6.3,<0.7.0)",
 ]
 [project.optional-dependencies]
-openaleph = ["openaleph-procrastinate (>=5.0.0,<6.0.0)"]
+openaleph = ["openaleph-procrastinate (>=5.4.0,<6.0.0)"]
 
 [project.scripts]
 ftm-assets = "ftm_assets.cli:cli"

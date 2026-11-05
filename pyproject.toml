@@ -19,6 +19,7 @@ dependencies = [
     "ftmq (>=5.3.0,<6.0.0)",
     "pillow (>=13.0.0,<14.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
+    "putfs[client] (>=0.6.0,<0.7.0)",
 ]
 [project.optional-dependencies]
 openaleph = ["openaleph-procrastinate (>=5.0.0,<6.0.0)"]
@@ -35,7 +36,7 @@ Issues = "https://github.com/dataresearchcenter/ftm-assets/issues"
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.4.3,<9.0.0"
 pytest-cov = ">=4.1,<7.0"
-black = ">=23.11,<26.0"
+black = ">=23.11,<27.0"
 isort = "^6.0.1"
 mypy = "^2.0.0"
 pre-commit = "^4.0.1"

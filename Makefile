@@ -1,7 +1,4 @@
 export DEBUG := 1
-export FTM_ASSETS_PUBLIC_CDN_PREFIX := http://localhost:5000/api/static
-export FTM_ASSETS_MIRROR := 1
-export FTM_ASSETS_THUMBNAILS := 1
 
 
 all: clean install test
@@ -22,15 +19,11 @@ typecheck:
 
 test:
 	rm -rf .test-store
-	mkdir -p static
 	poetry run pytest -v --capture=sys --cov=ftm_assets --cov-report lcov
 	rm -rf .test-store
 
 build:
 	poetry build
-
-build-docker:
-	docker build . -t ghcr.io/openaleph/ftm-assets
 
 clean:
 	rm -fr build/
@@ -43,11 +36,6 @@ clean:
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-api:
-	uvicorn ftm_assets.api:app --reload --port 5000
-
-docs:
-	PATH=.venv/bin:$$PATH .venv/bin/mkdocs serve
-
-docs-build:
-	PATH=.venv/bin:$$PATH .venv/bin/mkdocs build
+documentation:
+	zensical build
+	putfs sync --delete ./site putfs://static.darc.zone/openaleph.org/docs/lib/ftm-assets

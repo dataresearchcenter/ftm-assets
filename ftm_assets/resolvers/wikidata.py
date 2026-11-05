@@ -7,19 +7,18 @@ https://www.wikidata.org/w/api.php?action=wbgetclaims&property=P18&entity=Q7747
 from datetime import datetime
 
 import httpx
+from anystore.logging import get_logger
 from anystore.types import SDict
 from banal import ensure_list
 from pydantic import HttpUrl
 from rigour.ids.wikidata import is_qid
 
-from ftm_assets.logging import get_logger
 from ftm_assets.model import Attribution, Image
+from ftm_assets.resolvers import HEADERS
 from ftm_assets.settings import Settings
 
 log = get_logger(__name__)
 settings = Settings()
-
-USER_AGENT = "ftm-assets/0.0.4 (https://github.com/dataresearchcenter/ftm-assets)"
 
 BASE_URL = (
     "https://www.wikidata.org/w/api.php?action=wbgetclaims"
@@ -31,9 +30,6 @@ IMAGE_URL = (
 )
 
 
-HEADERS = {"User-Agent": USER_AGENT}
-
-
 def resolve_image_url(name: str) -> str | None:
     res = httpx.head(
         IMAGE_URL.format(name=name), follow_redirects=True, headers=HEADERS
@@ -42,7 +38,8 @@ def resolve_image_url(name: str) -> str | None:
         log.error("Image redirect not found", name=name)
         return
     res.raise_for_status()
-    return str(res.url)
+    # strip tracking params (utm_source etc.) Commons adds to the redirect
+    return str(res.url.copy_with(query=None))
 
 
 def extract_date(claim: SDict) -> str:
@@ -85,7 +82,7 @@ def resolve(id: str) -> Image | None:
                     return Image(
                         id=id,
                         name=candidate["name"],
-                        url=HttpUrl(url),
+                        original_url=HttpUrl(url),
                         alt=candidate["alt"],
                         attribution=Attribution(
                             license="CC BY 4.0",
